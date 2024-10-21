@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intraday Trade Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Intraday Trade Calculator</h1>
+        <form method="POST">
+            <label for="investment_amount">Investment Amount:</label>
+            <input type="number" id="investment_amount" name="investment_amount" step="0.01" required><br>
+
+            <label for="stock_price">Stock Price per Share:</label>
+            <input type="number" id="stock_price" name="stock_price" step="0.01" required><br>
+
+            <label for="short_selling">Short Selling:</label>
+            <input type="checkbox" id="short_selling" name="short_selling"
+                   {% if request.form.get('short_selling') %}checked{% endif %}><br><br>
+
+            <input type="submit" value="Calculate">
+        </form>
+
+        {% if current_portfolio_amount %}
+        <h2>Results</h2>
+        <p><strong>Current Portfolio Amount:</strong> {{ "{:,.2f}".format(current_portfolio_amount) }}</p>
+        <p><strong>Number of Shares:</strong> {{ "{:,.2f}".format(number_of_shares) }}</p>
+        <p><strong>Stop loss:</strong> {{ "{:,.2f}".format(stop_loss) }}</p>
+        <h3>{{ "Short Selling" if short_selling else "Intraday" }} Profit Goals</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Profit Goal</th>
+                    <th>{{ "Required Short SP" if short_selling else "Required Intraday SP" }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in trade_results %}
+                <tr>
+                    <td>{{ result.profit_goal }}</td>
+                    <td>{{ result.price | round(2) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
