@@ -9,7 +9,7 @@ def intra_day_trade(investment_amount, stock_price, short_selling=False):
     number_of_shares = investment_amount / intra_day_stock_price
 
     results = []
-    stop_loss = stock_price * 0.007
+    stop_loss = stock_price * 0.0054
 
     stoploss_for_intraday = stock_price - stop_loss
 
