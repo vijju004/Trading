@@ -15,7 +15,7 @@ def intra_day_trade(investment_amount, stock_price, short_selling=False):
 
     stoploss_for_shortselling = stock_price + stop_loss     
     stop_loss = stoploss_for_shortselling if short_selling else stoploss_for_intraday
-    for profit in range(1000, 10001, 500):
+    for profit in range(1000, 25001, 1000):
         intra_day_share_price = stock_price + profit / number_of_shares
         short_selling_share_price = stock_price - profit / number_of_shares
         
